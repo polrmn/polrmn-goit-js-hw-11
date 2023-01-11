@@ -1,7 +1,7 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
 
-refs = {
+const refs = {
   form: document.querySelector('#search-form'),
   galleryDiv: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
