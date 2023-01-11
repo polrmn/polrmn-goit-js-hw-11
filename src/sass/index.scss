@@ -1,2 +1,103 @@
-@import './common';
-@import './example';
+
+.search-form {
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    height: 60px;
+    background-color: burlywood;
+    
+    & input {
+        height: 40px;   
+        width: 300px;
+        border-radius: 4px;
+        font-style: italic;
+        border: none;
+        transition: transform 250ms ease-in-out;
+        &:focus, &:hover {
+            border: 1px solid;
+            transform: scale(1.05);
+        }
+    }   
+    & button {
+        height: 40px;
+        width: 80px;
+        font-weight: 400;
+        background-color: #fff;
+        border: 1px solid;
+        border-radius: 4px;
+        transition: transform 250ms ease-in-out;
+        &:focus, &:hover {
+            transform: scale(1.05);
+            border: none;
+            outline: none;
+            color: burlywood;
+        }
+    }
+}
+
+.gallery {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.photo-card {
+    padding: 5px;
+    padding-bottom: 0;
+    width: calc((100% - 30px) / 4);
+    height: auto;
+    border: 2px solid rgba(222, 184, 135, 0.3);
+    border-radius: 5px;
+    transition: transform 250ms ease-in-out;
+    & img {
+        display: block;
+        width: 100%;
+        max-height: 210px;
+        height: 100%;
+    }
+    &:hover {
+        box-shadow: -5px 3px 5px 2px rgba(0, 0, 0, 0.3);
+        transform: scale(1.05);
+        border: none;
+    }
+}
+
+.info {
+    display: flex;
+
+    font-size: 14px;
+}
+
+.info-item {
+    padding: 10px;
+    margin: 0;
+    &:not(:last-child) {
+        border-right: 1px solid burlywood;
+    }
+}
+
+.load-more {
+    display: block;
+    padding: 2px;
+    margin: 20 auto;
+    height: 100px;
+    width: 100px;
+    font-weight: 400;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform 250ms ease-in-out;
+    
+    &:focus, &:hover {
+        transform: scale(1.05);
+        border: none;
+        color: burlywood;
+    }
+}
+
+.is-hidden {
+    display: none;
+}
