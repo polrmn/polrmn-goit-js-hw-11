@@ -77,11 +77,10 @@ async function getImages(query) {
         per_page: 40,
       },
     });
-    console.log(response);
     
     if (response.data.hits.length === 0) {
-      throw new Error('404');
       refs.loadMoreBtn.classList.add('is-hidden');
+      throw new Error('404');
     } else if (response.data.hits.length < 40) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       refs.loadMoreBtn.classList.add('is-hidden');
