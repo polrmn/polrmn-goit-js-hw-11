@@ -46,6 +46,7 @@
 }
 
 .photo-card {
+    box-sizing: border-box;
     padding: 5px;
     padding-bottom: 0;
     width: calc((100% - 30px) / 4);
