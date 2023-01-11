@@ -35,6 +35,8 @@ async function onSearch(e) {
   const searchQuery = e.currentTarget.elements.searchQuery.value;
   const answer = await getImages(searchQuery);
 
+  Notify.success('Hooray! We found totalHits images.');
+
   refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
 }
 
@@ -89,7 +91,7 @@ async function getImages(query) {
       Notify.success('good');
     }
 
-    return response.data.hits
+    return response.data.hits 
 
   } catch (error) {
       Notify.failure(
