@@ -81,6 +81,7 @@ async function getImages(query) {
     
     if (response.data.hits.length === 0) {
       throw new Error('404');
+      refs.loadMoreBtn.classList.add('is-hidden');
     } else if (response.data.hits.length < 40) {
       Notify.info("We're sorry, but you've reached the end of search results.");
       refs.loadMoreBtn.classList.add('is-hidden');
