@@ -35,7 +35,6 @@ async function onSearch(e) {
   const searchQuery = e.currentTarget.elements.searchQuery.value;
   const answer = await getImages(searchQuery);
 
-  Notify.success('Hooray! We found totalHits images.');
 
   refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
 }
@@ -79,7 +78,10 @@ async function getImages(query) {
         per_page: 40,
       },
     });
+    if (pageCount) {
+    }
     
+
     if (response.data.hits.length === 0) {
       refs.loadMoreBtn.classList.add('is-hidden');
       throw new Error('404');
