@@ -43,13 +43,18 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
+
+    & a {
+        width: calc((100% - 30px) / 4);
+        text-decoration: none;
+    }
 }
 
 .photo-card {
     box-sizing: border-box;
     padding: 5px;
     padding-bottom: 0;
-    width: calc((100% - 30px) / 4);
+    
     height: auto;
     border: 2px solid rgba(222, 184, 135, 0.3);
     border-radius: 5px;
@@ -69,7 +74,7 @@
 
 .info {
     display: flex;
-
+    color: black;
     font-size: 14px;
 }
 
@@ -81,24 +86,24 @@
     }
 }
 
-.load-more {
-    display: block;
-    padding: 2px;
-    margin: 20 auto;
-    height: 100px;
-    width: 100px;
-    font-weight: 400;
-    background-color: #fff;
-    border-radius: 50%;
-    transition: transform 250ms ease-in-out;
+// .load-more {
+//     display: block;
+//     padding: 2px;
+//     margin: 20 auto;
+//     height: 100px;
+//     width: 100px;
+//     font-weight: 400;
+//     background-color: #fff;
+//     border-radius: 50%;
+//     transition: transform 250ms ease-in-out;
     
-    &:focus, &:hover {
-        transform: scale(1.05);
-        border: none;
-        color: burlywood;
-    }
-}
+//     &:focus, &:hover {
+//         transform: scale(1.05);
+//         border: none;
+//         color: burlywood;
+//     }
+// }
 
-.is-hidden {
-    display: none;
-}
+// .is-hidden {
+//     display: none;
+// }

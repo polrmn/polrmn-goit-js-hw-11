@@ -1,31 +1,56 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import axios from 'axios';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const refs = {
   form: document.querySelector('#search-form'),
   galleryDiv: document.querySelector('.gallery'),
-  loadMoreBtn: document.querySelector('.load-more'),
+  // loadMoreBtn: document.querySelector('.load-more'),
 };
 
-refs.loadMoreBtn.classList.add('is-hidden');
+// refs.loadMoreBtn.classList.add('is-hidden');
 
 let pageCount = 1;
 
 axios.defaults.baseURL = 'https://pixabay.com/api/';
 
 refs.form.addEventListener('submit', onSearch);
-refs.loadMoreBtn.addEventListener('click', onLoadBtnClick);
+// refs.loadMoreBtn.addEventListener('click', onLoadBtnClick);
+window.addEventListener('scroll', loadMorePictures);
 
-async function onLoadBtnClick() {
-  pageCount += 1;
+async function loadMorePictures() {
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
+    
+    pageCount += 1;
 
-  const searchQuery = refs.form.elements.searchQuery.value;
+    const searchQuery = refs.form.elements.searchQuery.value;
 
-  const answer = await getImages(searchQuery);
+    const answer = await getImages(searchQuery);
 
-  refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
+    refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
 
+    createLightbox();
+
+    // scrollAfterLoad();
+  }
 }
+
+
+// async function onLoadBtnClick() {
+//   pageCount += 1;
+
+//   const searchQuery = refs.form.elements.searchQuery.value;
+
+//   const answer = await getImages(searchQuery);
+
+//   refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
+
+//   createLightbox();
+
+//   scrollAfterLoad();
+
+// }
 
 async function onSearch(e) {
   e.preventDefault();
@@ -35,32 +60,37 @@ async function onSearch(e) {
   const searchQuery = e.currentTarget.elements.searchQuery.value;
   const answer = await getImages(searchQuery);
 
-
   refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
+  
+  createLightbox();
+
 }
 
 function renderGallery(images) {
-  const result =
-  images.map(
-    image =>
-      `<div class="photo-card">
-        <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy"/>
-        <div class="info">
-          <p class="info-item">
-            <b>Likes ${image.likes}</b>
-          </p>
-          <p class="info-item">
-            <b>Views ${image.views}</b>
-          </p>
-          <p class="info-item">
-            <b>Comments ${image.comments}</b>
-          </p>
-          <p class="info-item">
-            <b>Downloads ${image.downloads}</b>
-          </p>
-        </div>
-      </div>`
-    ).join('');
+  const result = images
+    .map(
+      image =>
+        `<a href="${image.largeImageURL}">
+          <div class="photo-card">
+            <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy"/>
+            <div class="info">
+              <p class="info-item">
+                <b>Likes ${image.likes}</b>
+              </p>
+              <p class="info-item">
+                <b>Views ${image.views}</b>
+              </p>
+              <p class="info-item">
+                <b>Comments ${image.comments}</b>
+              </p>
+              <p class="info-item">
+                <b>Downloads ${image.downloads}</b>
+              </p>
+            </div>
+          </div>
+        </a>`
+    )
+    .join('');
   return result;
 
 }
@@ -78,19 +108,19 @@ async function getImages(query) {
         per_page: 40,
       },
     });
-    if (pageCount) {
+    if (pageCount === 1 && response.data.hits.length !== 0) {
+      Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
     }
     
 
-    if (response.data.hits.length === 0) {
-      refs.loadMoreBtn.classList.add('is-hidden');
+    if (pageCount === 1 && response.data.hits.length === 0) {
+      // refs.loadMoreBtn.classList.add('is-hidden');
       throw new Error('404');
     } else if (response.data.hits.length < 40) {
       Notify.info("We're sorry, but you've reached the end of search results.");
-      refs.loadMoreBtn.classList.add('is-hidden');
+      // refs.loadMoreBtn.classList.add('is-hidden');
     } else {
-      refs.loadMoreBtn.classList.remove('is-hidden');
-      Notify.success('good');
+      // refs.loadMoreBtn.classList.remove('is-hidden');
     }
 
     return response.data.hits 
@@ -102,5 +132,23 @@ async function getImages(query) {
   }
 }
 
+function createLightbox() {
+    const lightbox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+    lightbox.refresh();
+}
+
+function scrollAfterLoad() {
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+}
 
 
