@@ -6,6 +6,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const refs = {
   form: document.querySelector('#search-form'),
   galleryDiv: document.querySelector('.gallery'),
+  loaderDiv: document.querySelector('.loader')
   // loadMoreBtn: document.querySelector('.load-more'),
 };
 
@@ -21,12 +22,16 @@ window.addEventListener('scroll', loadMorePictures);
 
 async function loadMorePictures() {
   if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight) {
-    
+
+    refs.loaderDiv.classList.toggle('is-hidden');
+
     pageCount += 1;
 
     const searchQuery = refs.form.elements.searchQuery.value;
 
-    const answer = await getImages(searchQuery);
+    const answer = await getImages(searchQuery); 
+
+    refs.loaderDiv.classList.toggle('is-hidden');
 
     refs.galleryDiv.insertAdjacentHTML('beforeend', renderGallery(answer));
 
